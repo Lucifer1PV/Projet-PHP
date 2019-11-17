@@ -1,3 +1,5 @@
+drop database ma_base;
+drop user u_stage@localhost;
 
 CREATE DATABASE `ma_base` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 use `ma_base`;
@@ -40,8 +42,8 @@ CREATE TABLE `likes` (
 --
 
 CREATE TABLE `membre` (
-  `id_membre` int(11) NOT NULL ,
-  `dateNais` date NOT NULL,
+  `id_membre` int(11) DEFAULT 0 ,
+  `dateNais` date DEFAULT NULL,
   `tel` varchar(10) NOT NULL,
   `diplomeP` varchar(50) DEFAULT NULL
 );
@@ -69,7 +71,7 @@ CREATE TABLE `offre` (
 --
 
 CREATE TABLE `utilisateur` (
-  `idUser` int(11) NOT NULL UNIQUE ,
+  `idUser` int(11) NOT NULL UNIQUE DEFAULT 1,
   `nom` varchar(25) NOT NULL,
   `prenom` varchar(25) NOT NULL,
   `mail` varchar(50) NOT NULL,
