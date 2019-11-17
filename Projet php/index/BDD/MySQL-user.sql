@@ -42,7 +42,7 @@ CREATE TABLE `likes` (
 --
 
 CREATE TABLE `membre` (
-  `id_membre` int(11) DEFAULT 0 ,
+  `id_membre` int(11) DEFAULT 1 ,
   `dateNais` date DEFAULT NULL,
   `tel` varchar(10) NOT NULL,
   `diplomeP` varchar(50) DEFAULT NULL
