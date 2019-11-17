@@ -24,7 +24,9 @@
 					// création et exécution de la requête, avec gestion des erreurs de requête		
 					try{
 						$PDO_BDD->exec("UPDATE utilisateur SET idUser= idUser + 1");
-						$PDO_BDD->exec("INSERT into utilisateur values(idUser,'$_REQUEST[mail]','$_REQUEST[mdp]','$_REQUEST[tel]','$_REQUEST[nom]','$_REQUEST[prenom]','Membre')");
+						//$PDO_BDD->exec("UPDATE membre SET id_membre= id_membre + 1");
+						//$PDO_BDD->exec("INSERT into membre(dateNaiss, tel , diplomeP) values ('$_REQUEST[date]'),'$_REQUEST[tel]','$_REQUEST[diplome]')");
+						$PDO_BDD->exec("INSERT into utilisateur(mail,mdp,nom,prenom,status) values('$_REQUEST[mail]','$_REQUEST[mdp]','$_REQUEST[nom]','$_REQUEST[prenom]', 'Membre')");
 					}
 					catch(Exception $e){
 						die ('Erreur : '.$e->getMessage().'<br/>');
