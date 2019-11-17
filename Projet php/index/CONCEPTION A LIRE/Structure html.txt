@@ -1,0 +1,56 @@
+--------------------------------            
+Conception du site 
+--------------------------------
+
+Page : 
+
+        Index -> - contact
+                 - stage
+                 - Sign in / Sign up
+    
+        Contact -> - index
+                 - stage
+                 - Sign in / Sign up
+
+        stage -> - contact
+                 - index
+                 - Sign in / Sign up
+
+        sign in  -> - contact
+                 - stage
+                 - index
+                 - Sign up
+
+        sign up  -> - contact
+                 - stage
+                 - index
+                 - Sign in
+
+
+        Sign up   :    choix multiple pour choisir le compte que l'on veut créer 
+                            - compte membre
+                            - compte entreprise
+                        ---> deux boutton 
+
+            Bouton 1  me renvoie sur une page avec les champs à remplier pour 
+                        creer un compte entreprise
+                                :
+                                    - nom
+                                    - raison - social
+                                    - tel
+                                    - mail
+                                    - mdp 
+                                    - confirmer mdp
+                                    - boutton envoyer 
+                    --> créer le compte et se connecte à la BDD
+            
+            Bouton 2 me renvoie sur une page avec les champs à remplir pour   
+                        creer un compte membre 
+                                :
+                                    - nom
+                                    - prenom
+                                    - mail
+                                    - mdp
+                                    - confirmer mdp
+                                    - bouton envoyer
+                    --> créer le compte et se connecte à la BDD

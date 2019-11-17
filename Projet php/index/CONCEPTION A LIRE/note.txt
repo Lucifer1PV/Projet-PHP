@@ -1,0 +1,50 @@
+-----------------------------------------------------------------
+Note Conception du site : projet PHP
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+
+----------------
+Partie 1: Inscription : 
+----------------
+
+    --- Sign in ------
+    ===  s'identifier 
+    1 fichier php;
+
+    --- Sign up ------
+    page avec deux choix : membre
+                        Entreprise
+
+    ---> apres avoir choisie le type d'Inscription
+        ---> redirection vers la page correspondante 
+            1/ inscription avec donnée à rentrer en tant que membre
+            2/ inscription avec donnée à rentrer en tant qu'Entreprise
+            
+    ----------> aprés avoir finie de rentrer les données , clique sur envoyer
+        ---> connection avec la bdd , avec le login (email) et mdp
+        ---> redirection vers home avec :
+                    //////// register et sign in enlever et remplacer par le profil
+                    
+    --------------------
+    Page profile créer 
+    ---------------------
+    toutes les données du compte avec : 
+        - possibilité de rentrer un stage pour une Entreprise  
+        - modifier ses données (champs remplie lors de l'inscription) 
+    -----------------------------------------------------------------
+
+-----------------------------------------------------------------
+Partie 2 : Specificité d'un compte entreprise :
+------------------------------------------------------------------
+        Lorsque l'on veut créer un stage on remplie tout les champs nécéssaire
+        --> pour valider un stage : envoie un email à l'admin pour le valider
+
+
+        Apres la création d'un stage 
+        ------------------------------------------------------------------
+        Dans la page stage , affiche tout les stages créer et on peut se rediriger dessus 
+
+
+-----------------------------------------------------------------
+Partie 3 : Compte rendu 
+-----------------------------------------------------------------
