@@ -41,11 +41,15 @@ CREATE TABLE `likes` (
 -- Structure de la table `membre`
 --
 
-CREATE TABLE `membre` (
-  `id_membre` int(11) DEFAULT 1 ,
-  `dateNais` date DEFAULT NULL,
-  `tel` varchar(10) NOT NULL,
-  `diplomeP` varchar(50) DEFAULT NULL
+CREATE TABLE membre
+(
+    idUser INTEGER NOT NULL primary key,
+    idMembre INTEGER NOT NULL,
+    dateNaiss DATE NOT NULL,
+    tel VARCHAR(14) NOT NULL,
+    diplomePrep VARCHAR(50),
+    CONSTRAINT Membre_UserSite_FK FOREIGN KEY (idUser)
+        REFERENCES UserSite(idUser)
 );
 
 -- --------------------------------------------------------
@@ -97,6 +101,14 @@ CREATE TABLE `commentaire` (
 --
 
 --
+-- Contraintes pour update idUser de Utilisateur et id_membre de membre en meme temps
+--
+
+--
+-- ALTER TABLE membre add constraint fk_membre_utilisateur  foreign key(id_membre)  references utilisateur(idUser)
+-- on update cascade
+
+--
 -- Contraintes pour la table `commentaire`
 --
 ALTER TABLE `commentaire`
@@ -117,11 +129,6 @@ ALTER TABLE `likes`
   ADD KEY `FK_Likes_Offre` (`idOffre`),
   ADD KEY `FK_Likes_Utilisateur` (`idUser`);
 
---
--- Index pour la table `membre`
---
-ALTER TABLE `membre`
-  ADD PRIMARY KEY (`id_membre`);
 
 --
 -- Index pour la table `offre`
@@ -135,16 +142,14 @@ ALTER TABLE `offre`
 ALTER TABLE `utilisateur`
   ADD PRIMARY KEY (`idUser`);
 
---
--- Contraintes pour les tables exportées
---
+
 
 
 --
 -- Contraintes pour la table `entreprise`
 --
 ALTER TABLE `entreprise`
-  ADD CONSTRAINT `Entreprise_User_FK` FOREIGN KEY (`idEnt`) REFERENCES `utilisateur` (`idUser`);
+  ADD CONSTRAINT `Entreprise_User_FK` FOREIGN KEY (`idEnt`) REFERENCES `utilisateur` (`idUser`) ;
 
 --
 -- Contraintes pour la table `likes`
@@ -153,11 +158,6 @@ ALTER TABLE `likes`
   ADD CONSTRAINT `FK_Likes_Offre` FOREIGN KEY (`idOffre`) REFERENCES `offre` (`idOffre`),
   ADD CONSTRAINT `FK_Likes_Utilisateur` FOREIGN KEY (`idUser`) REFERENCES `utilisateur` (`idUser`);
 
---
--- Contraintes pour la table `membre`
---
-ALTER TABLE `membre`
-  ADD CONSTRAINT `Membre_User_FK` FOREIGN KEY (`id_membre`) REFERENCES `utilisateur` (`idUser`);
 
 
 insert into  utilisateur  values(1,'adminBDD','..','johan.bosquet@etu.univ-amu.fr',sha1('abcd'),'admin');
