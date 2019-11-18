@@ -19,8 +19,8 @@ GRANT ALL PRIVILEGES ON `ma_base` . * TO 'u_stage'@'localhost';
 
 CREATE TABLE `utilisateur` (
   `idUser` SERIAL NOT NULL  primary key,
-  `nom` varchar(25) NOT NULL,
-  `prenom` varchar(25) NOT NULL,
+  `nom` varchar(25) NULL,
+  `prenom` varchar(25) NULL,
   `mail` varchar(50) NOT NULL,
   `mdp` varchar(50) NOT NULL,
   `status` varchar(10) NOT NULL
@@ -32,9 +32,9 @@ CREATE TABLE `utilisateur` (
 --
 
 CREATE TABLE `entreprise` (
-  `idEnt` int NOT NULL DEFAULT 1 primary key,
+  `idEnt` int NOT NULL primary key,
   `idUser` SERIAL NOT NULL,
-  `raisonSociale` varchar(25) NOT NULL,
+  `raisonSociale` varchar(150) NOT NULL,
   `tel` varchar(10) NOT NULL,
   `actif` boolean NOT NULL,
   CONSTRAINT Entreprise_User_FK FOREIGN KEY(idUser) REFERENCES utilisateur(idUser)
