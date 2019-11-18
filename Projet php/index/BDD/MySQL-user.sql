@@ -32,7 +32,7 @@ CREATE TABLE `utilisateur` (
 --
 
 CREATE TABLE `entreprise` (
-  `idEnt` int NOT NULL primary key,
+  `idEnt` int NOT NULL DEFAULT 1 primary key,
   `idUser` SERIAL NOT NULL,
   `raisonSociale` varchar(25) NOT NULL,
   `tel` varchar(10) NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE `entreprise` (
 
 CREATE TABLE membre
 (
-    idMembre INT NOT NULL primary key,
+    idMembre INT NOT NULL DEFAULT 1 primary key,
     `idUser` SERIAL NOT NULL,
     dateNaiss DATE NOT NULL,
     tel VARCHAR(14) NOT NULL,
