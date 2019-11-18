@@ -1,3 +1,45 @@
+<?php
+	// traitment des données du formulaire
+	if (isset($_REQUEST['valid']))
+		{
+			// vérification de la validité des données
+			if (   !empty($_REQUEST['name']) 
+				&& !empty($_REQUEST['mail'])
+				&& !empty($_REQUEST['tel'])
+				&& !empty($_REQUEST['raisonSoc'])
+				&& !empty($_REQUEST['mdp'])
+
+				&& ($_REQUEST['mdp']== $_REQUEST['confirm']) )
+				{
+					// connexion à la BDD
+					include('configBDD.inc.php');
+					
+					// insertion des données dans la table
+					if (is_null($_REQUEST['tel']))
+						$tel='NULL';
+					else
+						$tel="'$_REQUEST[tel]'";
+
+					// création et exécution de la requête, avec gestion des erreurs de requête		
+					try{
+						$PDO_BDD->exec("INSERT into utilisateur(mail,mdp,nom,status) values('$_REQUEST[mail]',SHA1('$_REQUEST[mdp]'),'$_REQUEST[name]', 'Entreprise')");
+						$PDO_BDD->exec("INSERT into entreprise(raisonSociale,tel,actif) values ('$_REQUEST[raisonSoc]','$_REQUEST[tel]',false)");
+					}
+					catch(Exception $e){
+						die ('Erreur : '.$e->getMessage().'<br/>');
+					}
+
+					// redirection vers la pas d'authentification
+					header('location:signin.php');
+				}
+			else
+				echo "Les champs marqués d'une * sont obligatoires et le mdp doit correspondre à la confirmation</br>";
+				
+		}
+		
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
