@@ -18,7 +18,7 @@ GRANT ALL PRIVILEGES ON `ma_base` . * TO 'u_stage'@'localhost';
 --
 
 CREATE TABLE `utilisateur` (
-  `idUser` int(11) NOT NULL primary key,
+  `idUser` SERIAL NOT NULL  primary key,
   `nom` varchar(25) NOT NULL,
   `prenom` varchar(25) NOT NULL,
   `mail` varchar(50) NOT NULL,
@@ -32,8 +32,8 @@ CREATE TABLE `utilisateur` (
 --
 
 CREATE TABLE `entreprise` (
-  `idEnt` int(11) NOT NULL primary key,
-  `idUser` int(11) NOT NULL,
+  `idEnt` int NOT NULL primary key,
+  `idUser` SERIAL NOT NULL,
   `raisonSociale` varchar(25) NOT NULL,
   `tel` varchar(10) NOT NULL,
   `actif` boolean NOT NULL,
@@ -41,16 +41,6 @@ CREATE TABLE `entreprise` (
 );
 
 -- --------------------------------------------------------
-
---
--- Structure de la table `likes`
---
-
-CREATE TABLE `likes` (
-  `nbLikes` int(11) DEFAULT NULL,
-  `idOffre` int(11) DEFAULT NULL,
-  `idUser` int(11) DEFAULT NULL
-) ;
 
 -- --------------------------------------------------------
 
@@ -60,12 +50,12 @@ CREATE TABLE `likes` (
 
 CREATE TABLE membre
 (
-    idMembre INTEGER NOT NULL primary key,
-    `idUser` int(11) NOT NULL,
+    idMembre INT NOT NULL primary key,
+    `idUser` SERIAL NOT NULL,
     dateNaiss DATE NOT NULL,
     tel VARCHAR(14) NOT NULL,
     diplomePrep VARCHAR(50),
-    CONSTRAINT Membre_UserSite_FK FOREIGN KEY (idUser)
+    CONSTRAINT Membre_UserSite_FK FOREIGN KEY (idUSer)
         REFERENCES utilisateur(idUser)
 );
 
@@ -76,7 +66,8 @@ CREATE TABLE membre
 --
 
 CREATE TABLE `offre` (
-  `idOffre` int(11) NOT NULL UNIQUE,
+   idOffre int NOT NULL primary key,
+  `idUser` SERIAL NOT NULL,
   `titre` varchar(40) NOT NULL,
   `duree` int(11) NOT NULL,
   `dateDebut` date NOT NULL,
@@ -96,23 +87,9 @@ CREATE TABLE `offre` (
 
 CREATE TABLE `commentaire` (
   `texte` varchar(200) DEFAULT NULL,
-  `idOffre` int(11) NOT NULL,
-  `idUser` int(11) NOT NULL
+   idOffre int NOT NULL,
+  `idUser` SERIAL NOT NULL
 );
-
--- --------------------------------------------------------
-
---
--- Index pour les tables exportées
---
-
---
--- Contraintes pour update idUser de Utilisateur et id_membre de membre en meme temps
---
-
---
--- ALTER TABLE membre add constraint fk_membre_utilisateur  foreign key(id_membre)  references utilisateur(idUser)
--- on update cascade
 
 --
 -- Contraintes pour la table `commentaire`
@@ -121,21 +98,16 @@ ALTER TABLE `commentaire`
   ADD CONSTRAINT `FK_Comment_Offre` FOREIGN KEY (`idOffre`) REFERENCES `offre` (`idOffre`),
   ADD CONSTRAINT `FK_Comment_User` FOREIGN KEY (`idUser`) REFERENCES `utilisateur` (`idUser`);
 
-
+-- -------------------------------------------------------------
 --
--- Index pour la table `likes`
+-- Structure de la table `likes`
 --
-ALTER TABLE `likes`
-  ADD KEY `FK_Likes_Offre` (`idOffre`),
-  ADD KEY `FK_Likes_Utilisateur` (`idUser`);
 
-
---
--- Index pour la table `offre`
---
-ALTER TABLE `offre`
-  ADD PRIMARY KEY (`idOffre`);
-
+CREATE TABLE `likes` (
+  `nbLikes` int DEFAULT NULL,
+  `idUser` SERIAL NOT NULL,
+  `idOffre` int NOT NULL
+);
 
 --
 -- Contraintes pour la table `likes`
@@ -143,6 +115,12 @@ ALTER TABLE `offre`
 ALTER TABLE `likes`
   ADD CONSTRAINT `FK_Likes_Offre` FOREIGN KEY (`idOffre`) REFERENCES `offre` (`idOffre`),
   ADD CONSTRAINT `FK_Likes_Utilisateur` FOREIGN KEY (`idUser`) REFERENCES `utilisateur` (`idUser`);
+
+--
+-- ---------------------------------------------------------------
+--
+
+
 
 
 
