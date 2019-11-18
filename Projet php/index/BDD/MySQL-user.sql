@@ -12,15 +12,32 @@ GRANT ALL PRIVILEGES ON `ma_base` . * TO 'u_stage'@'localhost';
 
 -- --------------------------------------------------------
 
+
+--
+-- Structure de la table `utilisateur`
+--
+
+CREATE TABLE `utilisateur` (
+  `idUser` int(11) NOT NULL primary key,
+  `nom` varchar(25) NOT NULL,
+  `prenom` varchar(25) NOT NULL,
+  `mail` varchar(50) NOT NULL,
+  `mdp` varchar(50) NOT NULL,
+  `status` varchar(10) NOT NULL
+) ;
+
+
 --
 -- Structure de la table `entreprise`
 --
 
 CREATE TABLE `entreprise` (
-  `idEnt` int(11) NOT NULL,
+  `idEnt` int(11) NOT NULL primary key,
+  `idUser` int(11) NOT NULL,
   `raisonSociale` varchar(25) NOT NULL,
   `tel` varchar(10) NOT NULL,
-  `actif` tinyint(1) NOT NULL
+  `actif` boolean NOT NULL,
+  CONSTRAINT Entreprise_User_FK FOREIGN KEY(idUser) REFERENCES utilisateur(idUser)
 );
 
 -- --------------------------------------------------------
@@ -43,13 +60,13 @@ CREATE TABLE `likes` (
 
 CREATE TABLE membre
 (
-    idUser INTEGER NOT NULL primary key,
-    idMembre INTEGER NOT NULL,
+    idMembre INTEGER NOT NULL primary key,
+    `idUser` int(11) NOT NULL,
     dateNaiss DATE NOT NULL,
     tel VARCHAR(14) NOT NULL,
     diplomePrep VARCHAR(50),
     CONSTRAINT Membre_UserSite_FK FOREIGN KEY (idUser)
-        REFERENCES UserSite(idUser)
+        REFERENCES utilisateur(idUser)
 );
 
 -- --------------------------------------------------------
@@ -70,18 +87,7 @@ CREATE TABLE `offre` (
 
 -- --------------------------------------------------------
 
---
--- Structure de la table `utilisateur`
---
 
-CREATE TABLE `utilisateur` (
-  `idUser` int(11) NOT NULL UNIQUE DEFAULT 1,
-  `nom` varchar(25) NOT NULL,
-  `prenom` varchar(25) NOT NULL,
-  `mail` varchar(50) NOT NULL,
-  `mdp` varchar(50) NOT NULL,
-  `status` varchar(10) NOT NULL
-) ;
 
 -- ----------------------------------------------------------
 --
@@ -117,12 +123,6 @@ ALTER TABLE `commentaire`
 
 
 --
--- Index pour la table `entreprise`
---
-ALTER TABLE `entreprise`
-  ADD PRIMARY KEY (`idEnt`);
-
---
 -- Index pour la table `likes`
 --
 ALTER TABLE `likes`
@@ -136,20 +136,6 @@ ALTER TABLE `likes`
 ALTER TABLE `offre`
   ADD PRIMARY KEY (`idOffre`);
 
---
--- Index pour la table `utilisateur`
---
-ALTER TABLE `utilisateur`
-  ADD PRIMARY KEY (`idUser`);
-
-
-
-
---
--- Contraintes pour la table `entreprise`
---
-ALTER TABLE `entreprise`
-  ADD CONSTRAINT `Entreprise_User_FK` FOREIGN KEY (`idEnt`) REFERENCES `utilisateur` (`idUser`) ;
 
 --
 -- Contraintes pour la table `likes`
