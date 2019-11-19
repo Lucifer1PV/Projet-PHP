@@ -73,3 +73,6 @@ CREATE TABLE IF NOT EXISTS `LIKE`(
 INSERT INTO STATUT VALUES(1,"membre");
 INSERT INTO STATUT VALUES(2,"entreprise");
 INSERT INTO STATUT VALUES(3,"admin");
+
+
+insert into  utilisateur  values(1,'adminBDD','..','johan.bosquet@etu.univ-amu.fr',sha1('abcd'),'admin');
