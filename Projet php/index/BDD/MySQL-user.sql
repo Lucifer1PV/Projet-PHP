@@ -10,118 +10,66 @@ GRANT ALL PRIVILEGES ON `ma_base` . * TO 'u_stage'@'localhost';
 -- 
 -- --------------------------------------------------------
 
--- --------------------------------------------------------
+-- 
+-- Table statut qui va stocker les différents statut possible (entreprise,membre,admin)un id correspondra a un statut
+CREATE TABLE IF NOT EXISTS `STATUT`(
+	ID_STATUT int(2) PRIMARY KEY,
+	NOM_STATUT varchar (255) NOT NULL
+);
+-- Table des utilisateurs
 
-
---
--- Structure de la table `utilisateur`
---
-
-CREATE TABLE `utilisateur` (
-  `idUser` SERIAL NOT NULL  primary key,
-  `nom` varchar(25) NULL,
-  `prenom` varchar(25) NULL,
-  `mail` varchar(50) NOT NULL,
-  `mdp` varchar(50) NOT NULL,
-  `status` varchar(10) NOT NULL
-) ;
-
-
---
--- Structure de la table `entreprise`
---
-
-CREATE TABLE `entreprise` (
-  `idEnt` int NOT NULL primary key,
-  `idUser` SERIAL NOT NULL,
-  `raisonSociale` varchar(150) NOT NULL,
-  `tel` varchar(10) NOT NULL,
-  `actif` boolean NOT NULL,
-  CONSTRAINT Entreprise_User_FK FOREIGN KEY(idUser) REFERENCES utilisateur(idUser)
+CREATE TABLE IF NOT EXISTS `UTILISATEUR` (
+  ID_USER SERIAL NOT NULL  PRIMARY KEY ,
+  UTI_PWD  varchar(255) NOT NULL,
+  UTI_MAIL varchar(255) NOT NULL,
+  UTI_NOM varchar(255) NOT NULL,
+  UTI_PRENOM varchar(255) NOT NULL,
+  ID_STATUT int(2),
+  FOREIGN KEY (`ID_STATUT`) references `STATUT`(`ID_STATUT`) on delete no action on update cascade
+);
+-- Table entreprise
+CREATE TABLE IF NOT EXISTS `ENTREPRISE`(
+	ID_ENTREPRISE int(2) PRIMARY KEY,
+	RAISON_SOCIALE varchar(255) NOT NULL,
+	TEL varchar(16) NOT NULL,
+	ID_USER SERIAL NOT NULL,
+	FOREIGN KEY (ID_USER) REFERENCES UTILISATEUR(ID_USER)on delete cascade on update cascade,
+	actif boolean default false
+);
+-- Table membre
+CREATE TABLE IF NOT EXISTS `MEMBRE`(
+	ID_MEMBRE int(2) PRIMARY KEY,
+	DATE_NAIS date NOT NULL,
+	TEL varchar(16) NOT NULL,
+	ID_USER SERIAL NOT NULL,
+	FOREIGN KEY (ID_USER) REFERENCES UTILISATEUR(ID_USER)on delete cascade on update cascade,
+	DIPLOME_PREP varchar(255) NOT NULL
+);
+-- Table offre de stage 
+CREATE TABLE IF NOT EXISTS `OFFRE`(
+	ID_OFFRE int(10) PRIMARY KEY,
+	TITRE varchar(255) NOT NULL,
+	DATE_DEBUT date NOT NULL,
+	MISSION varchar(255) NOT NULL,
+	CONTACT varchar(255) NOT NULL
+);
+-- Table commentaire 
+CREATE TABLE IF NOT EXISTS `COMMENTAIRE`(
+	ID_USER SERIAL NOT NULL,
+	ID_OFFRE int(10),
+    FOREIGN KEY (ID_USER) REFERENCES UTILISATEUR(ID_USER)on delete no action on update cascade,
+	FOREIGN KEY (ID_OFFRE) REFERENCES OFFRE(ID_OFFRE)on delete no action on update cascade,
+	TEXTE varchar(255) NOT NULL
+);
+-- Table gestion des likes sur un articles
+CREATE TABLE IF NOT EXISTS `LIKE`(
+	ID_USER SERIAL NOT NULL,
+	FOREIGN KEY (ID_USER) REFERENCES UTILISATEUR(ID_USER)on delete no action on update cascade,
+	ID_OFFRE int(10),
+	FOREIGN KEY (ID_OFFRE) REFERENCES OFFRE(ID_OFFRE)on delete no action on update cascade,
+	ouiLIKER boolean
 );
 
--- --------------------------------------------------------
-
--- --------------------------------------------------------
-
---
--- Structure de la table `membre`
---
-
-CREATE TABLE membre
-(
-    idMembre INT NOT NULL DEFAULT 1 primary key,
-    `idUser` SERIAL NOT NULL,
-    dateNaiss DATE NOT NULL,
-    tel VARCHAR(14) NOT NULL,
-    diplomePrep VARCHAR(50),
-    CONSTRAINT Membre_UserSite_FK FOREIGN KEY (idUSer)
-        REFERENCES utilisateur(idUser)
-);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `offre`
---
-
-CREATE TABLE `offre` (
-   idOffre int NOT NULL primary key,
-  `idUser` SERIAL NOT NULL,
-  `titre` varchar(40) NOT NULL,
-  `duree` int(11) NOT NULL,
-  `dateDebut` date NOT NULL,
-  `mission` varchar(150) NOT NULL,
-  `contact` varchar(60) NOT NULL,
-  `pieceJointe` varchar(150) NOT NULL
-) ;
-
--- --------------------------------------------------------
-
-
-
--- ----------------------------------------------------------
---
--- Structure de la table `commentaire`
---
-
-CREATE TABLE `commentaire` (
-  `texte` varchar(200) DEFAULT NULL,
-   idOffre int NOT NULL,
-  `idUser` SERIAL NOT NULL
-);
-
---
--- Contraintes pour la table `commentaire`
---
-ALTER TABLE `commentaire`
-  ADD CONSTRAINT `FK_Comment_Offre` FOREIGN KEY (`idOffre`) REFERENCES `offre` (`idOffre`),
-  ADD CONSTRAINT `FK_Comment_User` FOREIGN KEY (`idUser`) REFERENCES `utilisateur` (`idUser`);
-
--- -------------------------------------------------------------
---
--- Structure de la table `likes`
---
-
-CREATE TABLE `likes` (
-  `nbLikes` int DEFAULT NULL,
-  `idUser` SERIAL NOT NULL,
-  `idOffre` int NOT NULL
-);
-
---
--- Contraintes pour la table `likes`
---
-ALTER TABLE `likes`
-  ADD CONSTRAINT `FK_Likes_Offre` FOREIGN KEY (`idOffre`) REFERENCES `offre` (`idOffre`),
-  ADD CONSTRAINT `FK_Likes_Utilisateur` FOREIGN KEY (`idUser`) REFERENCES `utilisateur` (`idUser`);
-
---
--- ---------------------------------------------------------------
---
-
-
-
-
-
-insert into  utilisateur  values(1,'adminBDD','..','johan.bosquet@etu.univ-amu.fr',sha1('abcd'),'admin');
+INSERT INTO STATUT VALUES(1,"membre");
+INSERT INTO STATUT VALUES(2,"entreprise");
+INSERT INTO STATUT VALUES(3,"admin");
