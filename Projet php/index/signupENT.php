@@ -3,7 +3,7 @@
 	if (isset($_REQUEST['valid']))
 		{
 			// vérification de la validité des données
-			if (   !empty($_REQUEST['name']) 
+			if (   !empty($_REQUEST['nom']) 
 				&& !empty($_REQUEST['mail'])
 				&& !empty($_REQUEST['tel'])
 				&& !empty($_REQUEST['raisonSoc'])
@@ -22,8 +22,67 @@
 
 					// création et exécution de la requête, avec gestion des erreurs de requête		
 					try{
-						$PDO_BDD->exec("INSERT into utilisateur(mail,mdp,nom,status) values('$_REQUEST[mail]',SHA1('$_REQUEST[mdp]'),'$_REQUEST[name]', 'Entreprise')");
-						$PDO_BDD->exec("INSERT into entreprise(raisonSociale,tel,actif) values ('$_REQUEST[raisonSoc]','$_REQUEST[tel]',false)");
+						$query="SELECT MAX(ID_USER) as id FROM UTILISATEUR";
+						$resultat = $PDO_BDD->query($query);
+						foreach($resultat as $x){
+							$id=$x['id']+1;
+						}
+						if(!empty($_POST['entreprise'])){
+							$id_stat=2;
+						}
+						else{
+							$id_stat=1;
+						}
+						$mdp = sha1($_REQUEST['mdp']);
+						$mail = $_REQUEST['mail'];
+						$nom = $_REQUEST['nom'];
+						$prenom = " ";
+
+						$stmt=$PDO_BDD->prepare("INSERT INTO UTILISATEUR VALUES(:id,:mdp,:mail,:nom,:prenom,:id_stat)");
+						$stmt->bindParam(':id',$id);
+						$stmt->bindParam(':mdp',$mdp);
+						$stmt->bindParam(':mail',$mail);
+						$stmt->bindParam(':nom',$nom);
+						$stmt->bindParam(':prenom',$prenom);
+						$stmt->bindParam(':id_stat',$id_stat);
+						$stmt->execute();
+							
+						$actif=0;
+						$query2="SELECT MAX(ID_ENTREPRISE) as id FROM ENTREPRISE";
+						$resultat2 = $PDO_BDD->query($query2);
+						foreach($resultat2 as $x2){
+							$id_entreprise=$x2['id']+1;
+						}
+						$raison = $_REQUEST['raisonSoc'];
+						$tel = $_REQUEST['tel'];
+
+						$stmt2=$PDO_BDD->prepare("INSERT INTO ENTREPRISE VALUES(:id_ent,:rs_s,:tel,:id,:acf)");
+						$stmt2->bindParam(':id_ent',$id_entreprise);
+						$stmt2->bindParam(':rs_s',$raison);
+						$stmt2->bindParam(':tel',$tel);
+						$stmt2->bindParam(':id',$id);
+						$stmt2->bindParam(':acf',$actif);
+						$stmt2->execute();
+						/*
+						if(empty($_POST['entreprise']))
+						{
+							$query="SELECT MAX(ID_MEMBRE) as id FROM MEMBRE";
+							$resultat = $PDO_BDD->query($query);
+							foreach($resultat as $x){
+								$id_membre=$x['id']+1;
+							}
+							$stmt=$PDO_BDD->prepare("INSERT INTO MEMBRE VALUES(:id_mb,:date,:tel,:id,:diplome)");
+							$stmt->bindParam(':id_mb',$id_membre);
+							$stmt->bindParam(':date',$_POST['date_nais']);
+							$stmt->bindParam(':tel',$_POST['tel_membre']);
+							$stmt->bindParam(':id',$id);
+							$stmt->bindParam(':diplome',$_POST['diplome']);
+							$stmt->execute();
+							header('Location: signin.php');
+							exit();
+						}*/
+
+
 					}
 					catch(Exception $e){
 						die ('Erreur : '.$e->getMessage().'<br/>');
@@ -115,7 +174,7 @@
 							<form>
 								<div class="top-margin">
 									<label>Nom</label>
-									<input type="text" class="form-control" name="name">
+									<input type="text" class="form-control" name="nom">
 								</div>
 								<div class="top-margin">
 									<label>Email Address <span class="text-danger">*</span></label>
