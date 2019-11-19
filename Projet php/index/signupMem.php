@@ -7,6 +7,7 @@
 				&& !empty($_REQUEST['mdp'])
 				&& !empty($_REQUEST['nom'])
 				&& !empty($_REQUEST['date'])
+				&& !empty($_REQUEST['tel'])
 				&& !empty($_REQUEST['diplome'])
 				&& !empty($_REQUEST['prenom'])
 
@@ -23,8 +24,50 @@
 
 					// création et exécution de la requête, avec gestion des erreurs de requête		
 					try{
-						$PDO_BDD->exec("INSERT into utilisateur(mail,mdp,nom,prenom,status) values('$_REQUEST[mail]',SHA1('$_REQUEST[mdp]'),'$_REQUEST[nom]','$_REQUEST[prenom]', 'Membre')");
-						$PDO_BDD->exec("INSERT into membre(dateNaiss,tel,diplomePrep) values ('$_REQUEST[date]','$_REQUEST[tel]','$_REQUEST[diplome]')");
+						$query="SELECT MAX(ID_USER) as id FROM UTILISATEUR";
+						$resultat = $PDO_BDD->query($query);
+						foreach($resultat as $x){
+							$id=$x['id']+1;
+						}
+						if(!empty($_POST['entreprise'])){
+							$id_stat=2;
+						}
+						else{
+							$id_stat=1;
+						}
+						$mdp = sha1($_REQUEST['mdp']);
+						$mail = $_REQUEST['mail'];
+						$nom = $_REQUEST['nom'];
+						$prenom = $_REQUEST['prenom'];
+
+						$stmt=$PDO_BDD->prepare("INSERT INTO UTILISATEUR VALUES(:id,:mdp,:mail,:nom,:prenom,:id_stat)");
+						$stmt->bindParam(':id',$id);
+						$stmt->bindParam(':mdp',$mdp);
+						$stmt->bindParam(':mail',$mail);
+						$stmt->bindParam(':nom',$nom);
+						$stmt->bindParam(':prenom',$prenom);
+						$stmt->bindParam(':id_stat',$id_stat);
+						$stmt->execute();
+							
+						$query2="SELECT MAX(ID_MEMBRE) as id FROM MEMBRE";
+							$resultat2 = $PDO_BDD->query($query2);
+							foreach($resultat2 as $x2){
+								$id_membre=$x2['id']+1;
+							}
+						
+						$date = $_REQUEST['date'];
+						$tel = $_REQUEST['tel'];
+						$diplome = $_REQUEST['diplome'];
+						
+						$stmt2=$PDO_BDD->prepare("INSERT INTO MEMBRE VALUES(:id_mb,:date,:tel,:id,:diplome)");
+						$stmt2->bindParam(':id_mb',$id_membre);
+						$stmt2->bindParam(':date',$date);
+						$stmt2->bindParam(':tel',$tel);
+						$stmt2->bindParam(':id',$id);
+						$stmt2->bindParam(':diplome',$diplome);
+						$stmt2->execute();
+					
+						
 					}
 					catch(Exception $e){
 						die ('Erreur : '.$e->getMessage().'<br/>');
