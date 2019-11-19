@@ -75,4 +75,4 @@ INSERT INTO STATUT VALUES(2,"entreprise");
 INSERT INTO STATUT VALUES(3,"admin");
 
 
-insert into  utilisateur  values(1,'adminBDD','..','johan.bosquet@etu.univ-amu.fr',sha1('abcd'),'admin');
+insert into  utilisateur  values(1,sha1('abcd'),'johan.bosquet@etu.univ-amu.fr','admin','..',3);
