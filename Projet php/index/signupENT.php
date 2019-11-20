@@ -63,24 +63,6 @@
 						$stmt2->bindParam(':id',$id);
 						$stmt2->bindParam(':acf',$actif);
 						$stmt2->execute();
-						/*
-						if(empty($_POST['entreprise']))
-						{
-							$query="SELECT MAX(ID_MEMBRE) as id FROM MEMBRE";
-							$resultat = $PDO_BDD->query($query);
-							foreach($resultat as $x){
-								$id_membre=$x['id']+1;
-							}
-							$stmt=$PDO_BDD->prepare("INSERT INTO MEMBRE VALUES(:id_mb,:date,:tel,:id,:diplome)");
-							$stmt->bindParam(':id_mb',$id_membre);
-							$stmt->bindParam(':date',$_POST['date_nais']);
-							$stmt->bindParam(':tel',$_POST['tel_membre']);
-							$stmt->bindParam(':id',$id);
-							$stmt->bindParam(':diplome',$_POST['diplome']);
-							$stmt->execute();
-							header('Location: signin.php');
-							exit();
-						}*/
 
 
 					}
