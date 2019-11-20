@@ -39,7 +39,15 @@
 					<li><a href="index.php">Home</a></li>
 					<li><a href="stage.php">Stage</a></li>
 					<li class="active"><a href="contact.php">Contact</a></li>
-					<li><a class="btn" href="signin.php">SIGN IN / SIGN UP</a></li>
+					<?php
+						session_start();
+						if (isset($_SESSION['UTI_MAIL'])){
+							echo '<li><a class="btn" href="profile.php">Profile</a></li>';
+						}
+						else{
+							echo '<li><a class="btn" href="signin.php">SIGN IN / SIGN UP</a></li>';
+						}
+					?>
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div>
