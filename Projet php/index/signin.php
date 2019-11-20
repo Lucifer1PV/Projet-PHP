@@ -1,3 +1,16 @@
+<?php
+	include_once('connexion.php');
+	
+	if (isset($_SESSION))
+	{
+		//echo '<a href="deconnexion.php">déconnexion '.$_SESSION['UTI_MAIL'].'</a>';
+	}
+  
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,11 +87,11 @@
 							<form>
 								<div class="top-margin">
 									<label>Username/Email <span class="text-danger">*</span></label>
-									<input type="text" class="form-control">
+									<input type="text" class="form-control" name="mail">
 								</div>
 								<div class="top-margin">
 									<label>Password <span class="text-danger">*</span></label>
-									<input type="password" class="form-control">
+									<input type="password" class="form-control" name="mdp">
 								</div>
 
 								<hr>
@@ -88,7 +101,7 @@
 										<b><a href="">Forgot password?</a></b>
 									</div>
 									<div class="col-lg-4 text-right">
-										<button class="btn btn-action" type="submit">Sign in</button>
+										<button class="btn btn-action" type="submit" name="connexion">Sign in</button>
 									</div>
 								</div>
 							</form>
