@@ -27,7 +27,7 @@
 						foreach($resultat as $x){
 							$id=$x['id']+1;
 						}
-						if(!empty($_POST['entreprise'])){
+						if(empty($_POST['entreprise'])){
 							$id_stat=2;
 						}
 						else{
