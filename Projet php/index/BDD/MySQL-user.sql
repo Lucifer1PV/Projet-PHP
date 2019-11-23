@@ -15,6 +15,7 @@ GRANT ALL PRIVILEGES ON `ma_base` . * TO 'u_stage'@'localhost';
 CREATE TABLE IF NOT EXISTS `STATUT`(
 	ID_STATUT int(2) PRIMARY KEY,
 	NOM_STATUT varchar (255) NOT NULL
+	
 );
 -- Table des utilisateurs
 
@@ -52,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `OFFRE`(
 	DATE_DEBUT date NOT NULL,
 	MISSION varchar(255) NOT NULL,
 	CONTACT varchar(255) NOT NULL
+
 );
 -- Table commentaire 
 CREATE TABLE IF NOT EXISTS `COMMENTAIRE`(
